@@ -19,7 +19,37 @@ export default function App() {
   const [isBreak, setIsBreak] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [allDone, setAllDone] = useState(false);
+  const [showInstallPrompt, setShowInstallPrompt] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  // PWA Install prompt
+  useEffect(() => {
+    const handler = (e: any) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setShowInstallPrompt(true);
+    };
+
+    window.addEventListener('beforeinstallprompt', handler);
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handler);
+    };
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (!deferredPrompt) return;
+
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    
+    if (outcome === 'accepted') {
+      setShowInstallPrompt(false);
+    }
+    
+    setDeferredPrompt(null);
+  };
 
   // Add a new lesson
   const addLesson = useCallback((lesson: Lesson) => {
@@ -358,6 +388,28 @@ export default function App() {
             </div>
           </div>
         </div>
+
+        {/* Install PWA Button */}
+        {showInstallPrompt && (
+          <div className="mt-6 p-4 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-2xl shadow-lg animate-fade-in">
+            <div className="flex items-center gap-3">
+              <div className="flex-1">
+                <h3 className="text-white font-semibold text-sm mb-1">
+                  📱 Установить приложение
+                </h3>
+                <p className="text-white/90 text-xs">
+                  Добавьте на главный экран для быстрого доступа
+                </p>
+              </div>
+              <button
+                onClick={handleInstallClick}
+                className="px-4 py-2 bg-white text-indigo-600 rounded-xl font-medium text-sm shadow-md hover:shadow-lg transition-all whitespace-nowrap"
+              >
+                Установить
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
