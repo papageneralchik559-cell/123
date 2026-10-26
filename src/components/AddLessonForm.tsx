@@ -73,13 +73,13 @@ export default function AddLessonForm({ onAdd, isOpen, onToggle }: AddLessonForm
               <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">
                 Предмет
               </label>
-              <div className="flex flex-wrap gap-1.5">
+              <div className="flex flex-wrap gap-2">
                 {SUBJECTS.map((s) => (
                   <button
                     key={s.name}
                     type="button"
                     onClick={() => setSubject(s.name)}
-                    className={`px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                    className={`px-3 py-2 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${
                       subject === s.name
                         ? 'text-white shadow-md scale-105'
                         : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
@@ -102,13 +102,13 @@ export default function AddLessonForm({ onAdd, isOpen, onToggle }: AddLessonForm
               <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">
                 Длительность
               </label>
-              <div className="flex flex-wrap gap-1.5 mb-2">
+              <div className="flex flex-wrap gap-2 mb-2">
                 {PRESET_TIMES.map((preset) => (
                   <button
                     key={preset.value}
                     type="button"
                     onClick={() => handlePresetClick(preset.value)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                    className={`px-4 py-2 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${
                       selectedPreset === preset.value && !customMinutes
                         ? 'bg-indigo-500 text-white shadow-md'
                         : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
@@ -139,7 +139,7 @@ export default function AddLessonForm({ onAdd, isOpen, onToggle }: AddLessonForm
             <button
               type="submit"
               disabled={!name.trim()}
-              className="w-full py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-600 disabled:bg-gray-300 dark:disabled:bg-gray-600 text-white font-medium text-sm transition-all shadow-md hover:shadow-lg disabled:shadow-none"
+              className="w-full py-3 rounded-xl bg-indigo-500 hover:bg-indigo-600 disabled:bg-gray-300 dark:disabled:bg-gray-600 text-white font-medium text-sm transition-all shadow-md hover:shadow-lg disabled:shadow-none whitespace-nowrap"
             >
               <Plus size={16} className="inline mr-1" />
               Добавить урок
@@ -151,7 +151,7 @@ export default function AddLessonForm({ onAdd, isOpen, onToggle }: AddLessonForm
       {!isOpen && (
         <button
           onClick={onToggle}
-          className="w-full py-3 rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400 hover:border-indigo-400 hover:text-indigo-500 dark:hover:border-indigo-500 dark:hover:text-indigo-400 transition-all text-sm font-medium"
+          className="w-full py-3 rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400 hover:border-indigo-400 hover:text-indigo-500 dark:hover:border-indigo-500 dark:hover:text-indigo-400 transition-all text-sm font-medium whitespace-nowrap"
         >
           <Plus size={16} className="inline mr-1" />
           Добавить урок
@@ -161,7 +161,7 @@ export default function AddLessonForm({ onAdd, isOpen, onToggle }: AddLessonForm
       {isOpen && (
         <button
           onClick={onToggle}
-          className="w-full mt-2 py-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-xs transition-colors"
+          className="w-full mt-2 py-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-xs transition-colors whitespace-nowrap"
         >
           <X size={14} className="inline mr-1" />
           Закрыть

@@ -109,7 +109,8 @@ export default function LessonList({ lessons, currentIndex, onRemove }: LessonLi
             {!isCompleted && (
               <button
                 onClick={() => onRemove(lesson.id)}
-                className="flex-shrink-0 p-1.5 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/30 text-gray-400 hover:text-red-500 transition-colors"
+                className="flex-shrink-0 p-2 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/30 text-gray-400 hover:text-red-500 transition-colors"
+                title="Удалить"
               >
                 <Trash2 size={14} />
               </button>

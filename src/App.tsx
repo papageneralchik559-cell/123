@@ -240,41 +240,42 @@ export default function App() {
         </div>
 
         {/* Controls */}
-        <div className="flex items-center justify-center gap-3 mb-6 animate-fade-in-delay-3">
+        <div className="flex items-center justify-center gap-2 sm:gap-3 mb-6 animate-fade-in-delay-3 flex-wrap">
           {!isRunning && !allDone ? (
             <button
               onClick={startLesson}
               disabled={lessons.length === 0}
-              className="flex items-center gap-2 px-8 py-3 bg-indigo-500 hover:bg-indigo-600 disabled:bg-gray-300 dark:disabled:bg-gray-600 text-white rounded-2xl font-medium shadow-lg hover:shadow-xl transition-all disabled:shadow-none"
+              className="flex items-center gap-2 px-8 py-3 bg-indigo-500 hover:bg-indigo-600 disabled:bg-gray-300 dark:disabled:bg-gray-600 text-white rounded-2xl font-medium shadow-lg hover:shadow-xl transition-all disabled:shadow-none whitespace-nowrap"
             >
               <Play size={20} />
-              Начать
+              <span>Начать</span>
             </button>
           ) : (
             <>
               <button
                 onClick={togglePause}
-                className={`flex items-center gap-2 px-5 py-3 rounded-2xl font-medium shadow-lg transition-all ${
+                className={`flex items-center gap-2 px-4 py-3 rounded-2xl font-medium shadow-lg transition-all whitespace-nowrap ${
                   isPaused
                     ? 'bg-green-500 hover:bg-green-600 text-white'
                     : 'bg-yellow-500 hover:bg-yellow-600 text-white'
                 }`}
               >
-                {isPaused ? <Play size={18} /> : <Pause size={18} />}
-                {isPaused ? 'Продолжить' : 'Пауза'}
+                {isPaused ? <Play size={16} /> : <Pause size={16} />}
+                <span>{isPaused ? 'Продолжить' : 'Пауза'}</span>
               </button>
 
               <button
                 onClick={skipToNext}
-                className="flex items-center gap-2 px-5 py-3 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-2xl font-medium shadow-md transition-all"
+                className="flex items-center gap-2 px-4 py-3 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-2xl font-medium shadow-md transition-all whitespace-nowrap"
               >
-                <SkipForward size={18} />
-                Пропустить
+                <SkipForward size={16} />
+                <span>Пропустить</span>
               </button>
 
               <button
                 onClick={resetAll}
-                className="flex items-center gap-2 px-4 py-3 bg-red-100 dark:bg-red-900/30 hover:bg-red-200 dark:hover:bg-red-900/50 text-red-600 dark:text-red-400 rounded-2xl font-medium transition-all"
+                className="flex items-center justify-center p-3 bg-red-100 dark:bg-red-900/30 hover:bg-red-200 dark:hover:bg-red-900/50 text-red-600 dark:text-red-400 rounded-2xl font-medium transition-all"
+                title="Сбросить"
               >
                 <RotateCcw size={16} />
               </button>
@@ -302,7 +303,7 @@ export default function App() {
             </p>
             <button
               onClick={resetAll}
-              className="px-6 py-2 bg-green-500 hover:bg-green-600 text-white rounded-xl font-medium text-sm shadow-md transition-all"
+              className="px-6 py-3 bg-green-500 hover:bg-green-600 text-white rounded-xl font-medium text-sm shadow-md transition-all whitespace-nowrap"
             >
               <Sparkles size={14} className="inline mr-1" />
               Начать заново
