@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, X } from 'lucide-react';
 import { SUBJECTS, PRESET_TIMES } from '../utils/constants';
 import { v4 as uuidv4 } from 'uuid';
@@ -48,114 +47,106 @@ export default function AddLessonForm({ onAdd, isOpen, onToggle }: AddLessonForm
 
   return (
     <div>
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="overflow-hidden"
+      {isOpen && (
+        <div className="animate-slide-down">
+          <form
+            onSubmit={handleSubmit}
+            className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-4 space-y-4 shadow-lg"
           >
-            <form
-              onSubmit={handleSubmit}
-              className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-4 space-y-4 shadow-lg"
-            >
-              {/* Name input */}
-              <div>
-                <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">
-                  Название урока
-                </label>
+            {/* Name input */}
+            <div>
+              <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">
+                Название урока
+              </label>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Например: Алгебра - задачи"
+                className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                autoFocus
+              />
+            </div>
+
+            {/* Subject selector */}
+            <div>
+              <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">
+                Предмет
+              </label>
+              <div className="flex flex-wrap gap-1.5">
+                {SUBJECTS.map((s) => (
+                  <button
+                    key={s.name}
+                    type="button"
+                    onClick={() => setSubject(s.name)}
+                    className={`px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                      subject === s.name
+                        ? 'text-white shadow-md scale-105'
+                        : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                    }`}
+                    style={
+                      subject === s.name
+                        ? { backgroundColor: s.color }
+                        : undefined
+                    }
+                  >
+                    <span className="mr-1">{s.emoji}</span>
+                    {s.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Duration */}
+            <div>
+              <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">
+                Длительность
+              </label>
+              <div className="flex flex-wrap gap-1.5 mb-2">
+                {PRESET_TIMES.map((preset) => (
+                  <button
+                    key={preset.value}
+                    type="button"
+                    onClick={() => handlePresetClick(preset.value)}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                      selectedPreset === preset.value && !customMinutes
+                        ? 'bg-indigo-500 text-white shadow-md'
+                        : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                    }`}
+                  >
+                    {preset.label}
+                  </button>
+                ))}
+              </div>
+              <div className="flex items-center gap-2">
                 <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Например: Алгебра - задачи"
-                  className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
-                  autoFocus
+                  type="number"
+                  value={customMinutes}
+                  onChange={(e) => {
+                    setCustomMinutes(e.target.value);
+                    setSelectedPreset(null);
+                  }}
+                  placeholder="Своё время"
+                  min="1"
+                  max="180"
+                  className="w-28 px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
+                <span className="text-xs text-gray-500">минут</span>
               </div>
+            </div>
 
-              {/* Subject selector */}
-              <div>
-                <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">
-                  Предмет
-                </label>
-                <div className="flex flex-wrap gap-1.5">
-                  {SUBJECTS.map((s) => (
-                    <button
-                      key={s.name}
-                      type="button"
-                      onClick={() => setSubject(s.name)}
-                      className={`px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                        subject === s.name
-                          ? 'text-white shadow-md scale-105'
-                          : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-                      }`}
-                      style={
-                        subject === s.name
-                          ? { backgroundColor: s.color }
-                          : undefined
-                      }
-                    >
-                      <span className="mr-1">{s.emoji}</span>
-                      {s.name}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Duration */}
-              <div>
-                <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">
-                  Длительность
-                </label>
-                <div className="flex flex-wrap gap-1.5 mb-2">
-                  {PRESET_TIMES.map((preset) => (
-                    <button
-                      key={preset.value}
-                      type="button"
-                      onClick={() => handlePresetClick(preset.value)}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                        selectedPreset === preset.value && !customMinutes
-                          ? 'bg-indigo-500 text-white shadow-md'
-                          : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-                      }`}
-                    >
-                      {preset.label}
-                    </button>
-                  ))}
-                </div>
-                <div className="flex items-center gap-2">
-                  <input
-                    type="number"
-                    value={customMinutes}
-                    onChange={(e) => {
-                      setCustomMinutes(e.target.value);
-                      setSelectedPreset(null);
-                    }}
-                    placeholder="Своё время"
-                    min="1"
-                    max="180"
-                    className="w-28 px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                  />
-                  <span className="text-xs text-gray-500">минут</span>
-                </div>
-              </div>
-
-              {/* Submit */}
-              <button
-                type="submit"
-                disabled={!name.trim()}
-                className="w-full py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-600 disabled:bg-gray-300 dark:disabled:bg-gray-600 text-white font-medium text-sm transition-all shadow-md hover:shadow-lg disabled:shadow-none"
-              >
-                <Plus size={16} className="inline mr-1" />
-                Добавить урок
-              </button>
-            </form>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            {/* Submit */}
+            <button
+              type="submit"
+              disabled={!name.trim()}
+              className="w-full py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-600 disabled:bg-gray-300 dark:disabled:bg-gray-600 text-white font-medium text-sm transition-all shadow-md hover:shadow-lg disabled:shadow-none"
+            >
+              <Plus size={16} className="inline mr-1" />
+              Добавить урок
+            </button>
+          </form>
+        </div>
+      )}
 
       {!isOpen && (
         <button

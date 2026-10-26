@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Pause, SkipForward, RotateCcw, Trophy, Sparkles } from 'lucide-react';
+import { Play, Pause, SkipForward, RotateCcw, Sparkles } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import CircularProgress from './components/CircularProgress';
 import LessonList from './components/LessonList';
@@ -43,55 +42,6 @@ export default function App() {
     [currentIndex]
   );
 
-  // Start timer for current lesson
-  const startLesson = useCallback(() => {
-    if (lessons.length === 0 || currentIndex >= lessons.length) return;
-    const lesson = lessons[currentIndex];
-    setTimeRemaining(lesson.duration);
-    setTotalTime(lesson.duration);
-    setIsRunning(true);
-    setIsPaused(false);
-    setIsBreak(false);
-  }, [lessons, currentIndex]);
-
-  // Toggle pause
-  const togglePause = useCallback(() => {
-    setIsPaused((p) => !p);
-  }, []);
-
-  // Skip to next
-  const skipToNext = useCallback(() => {
-    if (isRunning) {
-      // Mark current as completed
-      setLessons((prev) =>
-        prev.map((l, i) => (i === currentIndex ? { ...l, completed: true } : l))
-      );
-    }
-    moveToNext();
-  }, [isRunning, currentIndex]);
-
-  // Move to next lesson or break
-  const moveToNext = useCallback(() => {
-    const nextIndex = currentIndex + 1;
-
-    if (nextIndex >= lessons.length) {
-      // All done!
-      setIsRunning(false);
-      setIsPaused(false);
-      setAllDone(true);
-      playNotificationSound();
-      triggerConfetti();
-      return;
-    }
-
-    // Start break
-    setIsBreak(true);
-    setTimeRemaining(BREAK_DURATION);
-    setTotalTime(BREAK_DURATION);
-    setIsPaused(false);
-    playBreakSound();
-  }, [currentIndex, lessons.length]);
-
   // Confetti effect
   const triggerConfetti = () => {
     const duration = 3000;
@@ -119,6 +69,55 @@ export default function App() {
     };
     frame();
   };
+
+  // Start timer for current lesson
+  const startLesson = useCallback(() => {
+    if (lessons.length === 0 || currentIndex >= lessons.length) return;
+    const lesson = lessons[currentIndex];
+    setTimeRemaining(lesson.duration);
+    setTotalTime(lesson.duration);
+    setIsRunning(true);
+    setIsPaused(false);
+    setIsBreak(false);
+  }, [lessons, currentIndex]);
+
+  // Toggle pause
+  const togglePause = useCallback(() => {
+    setIsPaused((p) => !p);
+  }, []);
+
+  // Move to next lesson or break
+  const moveToNext = useCallback(() => {
+    const nextIndex = currentIndex + 1;
+
+    if (nextIndex >= lessons.length) {
+      // All done!
+      setIsRunning(false);
+      setIsPaused(false);
+      setAllDone(true);
+      playNotificationSound();
+      triggerConfetti();
+      return;
+    }
+
+    // Start break
+    setIsBreak(true);
+    setTimeRemaining(BREAK_DURATION);
+    setTotalTime(BREAK_DURATION);
+    setIsPaused(false);
+    playBreakSound();
+  }, [currentIndex, lessons.length]);
+
+  // Skip to next
+  const skipToNext = useCallback(() => {
+    if (isRunning) {
+      // Mark current as completed
+      setLessons((prev) =>
+        prev.map((l, i) => (i === currentIndex ? { ...l, completed: true } : l))
+      );
+    }
+    moveToNext();
+  }, [isRunning, currentIndex, moveToNext]);
 
   // Reset everything
   const resetAll = useCallback(() => {
@@ -202,11 +201,7 @@ export default function App() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50/30 to-purple-50/30 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 transition-colors">
       <div className="max-w-lg mx-auto px-4 py-6">
         {/* Header */}
-        <motion.header
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-6"
-        >
+        <header className="text-center mb-6 animate-fade-in">
           <h1 className="text-2xl font-bold text-gray-800 dark:text-white flex items-center justify-center gap-2">
             <span className="text-3xl">📚</span>
             Учебный Таймер
@@ -214,25 +209,15 @@ export default function App() {
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
             Управляй временем эффективно
           </p>
-        </motion.header>
+        </header>
 
         {/* Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="mb-6"
-        >
+        <div className="mb-6 animate-fade-in-delay-1">
           <Stats lessons={lessons} currentIndex={currentIndex} />
-        </motion.div>
+        </div>
 
         {/* Timer */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.2 }}
-          className="flex justify-center mb-6"
-        >
+        <div className="flex justify-center mb-6 animate-fade-in-delay-2">
           <CircularProgress
             progress={progress}
             timeRemaining={timeRemaining}
@@ -242,15 +227,10 @@ export default function App() {
             isPaused={isPaused}
             lessonName={currentLesson?.name || ''}
           />
-        </motion.div>
+        </div>
 
         {/* Controls */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="flex items-center justify-center gap-3 mb-6"
-        >
+        <div className="flex items-center justify-center gap-3 mb-6 animate-fade-in-delay-3">
           {!isRunning && !allDone ? (
             <button
               onClick={startLesson}
@@ -290,62 +270,39 @@ export default function App() {
               </button>
             </>
           )}
-        </motion.div>
+        </div>
 
         {/* All Done Celebration */}
-        <AnimatePresence>
-          {allDone && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              className="text-center mb-6 p-6 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-2xl border border-green-200 dark:border-green-800"
+        {allDone && (
+          <div className="text-center mb-6 p-6 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-2xl border border-green-200 dark:border-green-800 animate-fade-in">
+            <div className="text-5xl mb-3 animate-bounce-gentle">🏆</div>
+            <h2 className="text-xl font-bold text-green-700 dark:text-green-300 mb-1">
+              Все уроки выполнены!
+            </h2>
+            <p className="text-sm text-green-600 dark:text-green-400 mb-4">
+              Отличная работа! Ты молодец! 🎉
+            </p>
+            <button
+              onClick={resetAll}
+              className="px-6 py-2 bg-green-500 hover:bg-green-600 text-white rounded-xl font-medium text-sm shadow-md transition-all"
             >
-              <motion.div
-                animate={{ rotate: [0, 10, -10, 0] }}
-                transition={{ duration: 0.5, repeat: 3 }}
-                className="text-5xl mb-3"
-              >
-                🏆
-              </motion.div>
-              <h2 className="text-xl font-bold text-green-700 dark:text-green-300 mb-1">
-                Все уроки выполнены!
-              </h2>
-              <p className="text-sm text-green-600 dark:text-green-400 mb-4">
-                Отличная работа! Ты молодец! 🎉
-              </p>
-              <button
-                onClick={resetAll}
-                className="px-6 py-2 bg-green-500 hover:bg-green-600 text-white rounded-xl font-medium text-sm shadow-md transition-all"
-              >
-                <Sparkles size={14} className="inline mr-1" />
-                Начать заново
-              </button>
-            </motion.div>
-          )}
-        </AnimatePresence>
+              <Sparkles size={14} className="inline mr-1" />
+              Начать заново
+            </button>
+          </div>
+        )}
 
         {/* Add Lesson Form */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="mb-6"
-        >
+        <div className="mb-6 animate-fade-in-delay-4">
           <AddLessonForm
             onAdd={addLesson}
             isOpen={showForm}
             onToggle={() => setShowForm(!showForm)}
           />
-        </motion.div>
+        </div>
 
         {/* Lesson List */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl border border-gray-200 dark:border-gray-700 p-4 shadow-sm"
-        >
+        <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl border border-gray-200 dark:border-gray-700 p-4 shadow-sm animate-fade-in-delay-5">
           <div className="flex items-center justify-between mb-3">
             <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-200">
               📋 Список уроков
@@ -360,17 +317,12 @@ export default function App() {
             onRemove={removeLesson}
             onReorder={setLessons}
           />
-        </motion.div>
+        </div>
 
         {/* Footer */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.7 }}
-          className="text-center mt-6 text-xs text-gray-400"
-        >
+        <div className="text-center mt-6 text-xs text-gray-400 animate-fade-in-delay-5">
           <p>💡 Совет: делай перерывы между уроками для лучшего усвоения</p>
-        </motion.div>
+        </div>
       </div>
     </div>
   );
