@@ -17,9 +17,15 @@ export default function LessonList({ lessons, currentIndex, onRemove }: LessonLi
 
   if (lessons.length === 0) {
     return (
-      <div className="text-center py-8 text-gray-400">
-        <div className="text-4xl mb-3">📋</div>
-        <p className="text-sm">Добавьте уроки для начала работы</p>
+      <div className="text-center py-6">
+        <img
+          src="https://image.qwenlm.ai/generated-images/c7b325bf-4ff9-4c25-98ef-6c42d399abea/_result.png"
+          alt="Начните обучение"
+          className="w-32 h-32 mx-auto mb-3 object-contain opacity-80"
+        />
+        <p className="text-sm text-gray-500 dark:text-gray-400">
+          Добавьте уроки для начала работы
+        </p>
       </div>
     );
   }

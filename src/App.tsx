@@ -200,15 +200,25 @@ export default function App() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50/30 to-purple-50/30 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 transition-colors">
       <div className="max-w-lg mx-auto px-4 py-6">
-        {/* Header */}
+        {/* Header with Hero Image */}
         <header className="text-center mb-6 animate-fade-in">
-          <h1 className="text-2xl font-bold text-gray-800 dark:text-white flex items-center justify-center gap-2">
-            <span className="text-3xl">📚</span>
-            Учебный Таймер
-          </h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-            Управляй временем эффективно
-          </p>
+          <div className="relative mb-4 rounded-2xl overflow-hidden shadow-lg">
+            <img
+              src="https://image.qwenlm.ai/generated-images/87ee01bb-9f14-49f5-a01d-7cb602b27549/_result.png"
+              alt="Учебное пространство"
+              className="w-full h-48 object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+            <div className="absolute bottom-4 left-0 right-0 text-white">
+              <h1 className="text-2xl font-bold flex items-center justify-center gap-2">
+                <span className="text-3xl">📚</span>
+                Учебный Таймер
+              </h1>
+              <p className="text-sm opacity-90 mt-1">
+                Управляй временем эффективно
+              </p>
+            </div>
+          </div>
         </header>
 
         {/* Stats */}
@@ -274,7 +284,15 @@ export default function App() {
 
         {/* All Done Celebration */}
         {allDone && (
-          <div className="text-center mb-6 p-6 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-2xl border border-green-200 dark:border-green-800 animate-fade-in">
+          <div className="text-center mb-6 p-6 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-2xl border border-green-200 dark:border-green-800 animate-fade-in overflow-hidden">
+            <div className="relative mb-4">
+              <img
+                src="https://image.qwenlm.ai/generated-images/94abb8ef-5d8a-4fd2-8317-38b723e0c941/_result.png"
+                alt="Поздравление"
+                className="w-full h-40 object-cover rounded-xl shadow-md"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-green-500/20 to-transparent rounded-xl"></div>
+            </div>
             <div className="text-5xl mb-3 animate-bounce-gentle">🏆</div>
             <h2 className="text-xl font-bold text-green-700 dark:text-green-300 mb-1">
               Все уроки выполнены!
@@ -319,9 +337,21 @@ export default function App() {
           />
         </div>
 
-        {/* Footer */}
-        <div className="text-center mt-6 text-xs text-gray-400 animate-fade-in-delay-5">
-          <p>💡 Совет: делай перерывы между уроками для лучшего усвоения</p>
+        {/* Footer with image */}
+        <div className="mt-8 animate-fade-in-delay-5">
+          <div className="relative rounded-2xl overflow-hidden shadow-md">
+            <img
+              src="https://image.qwenlm.ai/generated-images/2e93e417-1463-4aac-a13e-5ca9aac8e35f/_result.png"
+              alt="Уютное учебное место"
+              className="w-full h-32 object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+            <div className="absolute bottom-3 left-0 right-0 text-center">
+              <p className="text-white text-sm font-medium">
+                💡 Совет: делай перерывы между уроками для лучшего усвоения
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
