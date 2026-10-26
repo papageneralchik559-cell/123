@@ -73,15 +73,15 @@ export default function AddLessonForm({ onAdd, isOpen, onToggle }: AddLessonForm
               <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">
                 Предмет
               </label>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-1.5 sm:gap-2">
                 {SUBJECTS.map((s) => (
                   <button
                     key={s.name}
                     type="button"
                     onClick={() => setSubject(s.name)}
-                    className={`px-3 py-2 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${
+                    className={`px-2 sm:px-3 py-1.5 sm:py-2 rounded-md sm:rounded-lg text-[11px] sm:text-xs font-medium transition-all ${
                       subject === s.name
-                        ? 'text-white shadow-md scale-105'
+                        ? 'text-white shadow-md'
                         : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                     }`}
                     style={
@@ -90,7 +90,7 @@ export default function AddLessonForm({ onAdd, isOpen, onToggle }: AddLessonForm
                         : undefined
                     }
                   >
-                    <span className="mr-1">{s.emoji}</span>
+                    <span className="mr-0.5 sm:mr-1">{s.emoji}</span>
                     {s.name}
                   </button>
                 ))}
@@ -102,13 +102,13 @@ export default function AddLessonForm({ onAdd, isOpen, onToggle }: AddLessonForm
               <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">
                 Длительность
               </label>
-              <div className="flex flex-wrap gap-2 mb-2">
+              <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-2">
                 {PRESET_TIMES.map((preset) => (
                   <button
                     key={preset.value}
                     type="button"
                     onClick={() => handlePresetClick(preset.value)}
-                    className={`px-4 py-2 rounded-lg text-xs font-medium transition-all whitespace-nowrap ${
+                    className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-md sm:rounded-lg text-[11px] sm:text-xs font-medium transition-all ${
                       selectedPreset === preset.value && !customMinutes
                         ? 'bg-indigo-500 text-white shadow-md'
                         : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
@@ -139,9 +139,9 @@ export default function AddLessonForm({ onAdd, isOpen, onToggle }: AddLessonForm
             <button
               type="submit"
               disabled={!name.trim()}
-              className="w-full py-3 rounded-xl bg-indigo-500 hover:bg-indigo-600 disabled:bg-gray-300 dark:disabled:bg-gray-600 text-white font-medium text-sm transition-all shadow-md hover:shadow-lg disabled:shadow-none whitespace-nowrap"
+              className="w-full py-2.5 sm:py-3 rounded-xl bg-indigo-500 hover:bg-indigo-600 disabled:bg-gray-300 dark:disabled:bg-gray-600 text-white font-medium text-sm transition-all shadow-md hover:shadow-lg disabled:shadow-none"
             >
-              <Plus size={16} className="inline mr-1" />
+              <Plus size={14} className="inline mr-1" />
               Добавить урок
             </button>
           </form>

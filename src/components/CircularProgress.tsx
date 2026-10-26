@@ -27,7 +27,7 @@ export default function CircularProgress({
       {/* Background glow */}
       {isRunning && !isPaused && (
         <div
-          className="absolute w-72 h-72 rounded-full animate-pulse-gentle"
+          className="absolute w-60 h-60 sm:w-72 sm:h-72 rounded-full animate-pulse-gentle"
           style={{
             background: isBreak
               ? 'radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 70%)'
@@ -37,7 +37,7 @@ export default function CircularProgress({
       )}
 
       {/* SVG Circle */}
-      <svg width="300" height="300" className="transform -rotate-90">
+      <svg width="240" height="240" className="sm:w-[300px] sm:h-[300px] transform -rotate-90">
         {/* Background circle */}
         <circle
           cx="150"
@@ -47,6 +47,7 @@ export default function CircularProgress({
           stroke="currentColor"
           strokeWidth="8"
           className="text-gray-200 dark:text-gray-700"
+          transform="scale(0.8) translate(30, 30)"
         />
         {/* Progress circle */}
         <circle
@@ -60,13 +61,14 @@ export default function CircularProgress({
           strokeDasharray={circumference}
           strokeDashoffset={strokeDashoffset}
           className="transition-all duration-500 ease-in-out"
+          transform="scale(0.8) translate(30, 30)"
         />
       </svg>
 
       {/* Center content */}
       <div className="absolute flex flex-col items-center justify-center">
         <div
-          className={`text-sm font-medium mb-1 ${
+          className={`text-xs sm:text-sm font-medium mb-1 ${
             isRunning && !isPaused ? 'animate-pulse-gentle' : ''
           }`}
           style={{ color: isBreak ? '#10b981' : '#6366f1' }}
@@ -75,19 +77,19 @@ export default function CircularProgress({
         </div>
 
         <div
-          className={`text-5xl font-bold text-gray-800 dark:text-white tracking-wider ${
+          className={`text-3xl sm:text-5xl font-bold text-gray-800 dark:text-white tracking-wider ${
             timeRemaining <= 5 && isRunning ? 'animate-pulse' : ''
           }`}
         >
           {formatTime(timeRemaining)}
         </div>
 
-        <div className="text-sm text-gray-500 dark:text-gray-400 mt-2 max-w-[180px] text-center truncate">
+        <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1 sm:mt-2 max-w-[140px] sm:max-w-[180px] text-center truncate">
           {isBreak ? 'Отдохни и подготовься' : lessonName}
         </div>
 
         {isPaused && (
-          <div className="mt-2 px-3 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 rounded-full text-xs font-medium animate-fade-in">
+          <div className="mt-2 px-2 sm:px-3 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 rounded-full text-[10px] sm:text-xs font-medium animate-fade-in">
             ⏸ Пауза
           </div>
         )}
