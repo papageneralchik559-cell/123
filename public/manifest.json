@@ -1,0 +1,19 @@
+{
+  "name": "Учебный Таймер",
+  "short_name": "Таймер",
+  "description": "Управляй временем эффективно - таймер для выполнения уроков",
+  "start_url": "/study-timer/",
+  "scope": "/study-timer/",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#6366f1",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://image.qwenlm.ai/generated-images/2f18e7ae-cdf1-448d-a74e-b569fac9b5c0/_result.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
